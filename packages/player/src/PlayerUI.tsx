@@ -136,6 +136,19 @@ const PlayerUI: React.ForwardRefRenderFunction<
 		}
 	}, [hasPausedToResume, player]);
 
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        player.pause();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [player]);
+
 	useEffect(() => {
 		const {current} = container;
 
